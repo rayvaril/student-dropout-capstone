@@ -1,0 +1,36 @@
+feature,source_stage,used_enrollment_core,used_semester1_model,fairness_audit_feature
+Admission grade,Enrollment / context,True,True,False
+Age at enrollment,Enrollment / context,True,True,True
+Application mode,Enrollment / context,True,True,False
+Application order,Enrollment / context,True,True,False
+Course,Enrollment / context,True,True,False
+Curricular units 1st sem (approved),Raw Semester 1,False,True,False
+Curricular units 1st sem (credited),Raw Semester 1,False,True,False
+Curricular units 1st sem (enrolled),Raw Semester 1,False,True,False
+Curricular units 1st sem (evaluations),Raw Semester 1,False,True,False
+Curricular units 1st sem (grade),Raw Semester 1,False,True,False
+Curricular units 1st sem (without evaluations),Raw Semester 1,False,True,False
+Daytime/evening attendance,Enrollment / context,True,True,False
+Debtor,Enrollment — timing pending,False,False,False
+Displaced,Enrollment / context,True,True,False
+Educational special needs,Enrollment / context,True,True,True
+Father's occupation,Enrollment / context,True,True,False
+Father's qualification,Enrollment / context,True,True,False
+GDP,Enrollment / context,True,True,False
+Gender,Enrollment / context,True,True,True
+Inflation rate,Enrollment / context,True,True,False
+International,Enrollment / context,True,True,True
+Marital status,Enrollment / context,True,True,False
+Mother's occupation,Enrollment / context,True,True,False
+Mother's qualification,Enrollment / context,True,True,False
+Nacionality,Enrollment / context,True,True,False
+Previous qualification,Enrollment / context,True,True,False
+Previous qualification (grade),Enrollment / context,True,True,False
+Scholarship holder,Enrollment / context,True,True,True
+Tuition fees up to date,Enrollment — timing pending,False,False,False
+Unemployment rate,Enrollment / context,True,True,False
+sem1_approval_rate,Engineered Semester 1,False,True,False
+sem1_completion_gap,Engineered Semester 1,False,True,False
+sem1_evaluations_per_enrolled,Engineered Semester 1,False,True,False
+sem1_no_approved_units,Engineered Semester 1,False,True,False
+sem1_no_enrolled_units,Engineered Semester 1,False,True,False
