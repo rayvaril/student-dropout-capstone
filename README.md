@@ -61,12 +61,15 @@ The results highlight the trade-off between **timing and targeting quality**. Th
 
 These results describe the current held-out test sample and should be validated on future student cohorts before deployment.
 
-## Repository Structure
+### Repository Structure
 
 - `notebooks/` — Complete analysis workflow from problem definition through predictive modeling
-- `data/` — Data used for the analysis
+- `data/` — Raw and processed data used for the analysis
 - `models/` — Saved final model artifacts and configuration
 - `results/` — Model evaluation and intervention results
+- `reports/` — Final written reports and supporting documentation
+- `presentations/` — Final capstone presentation materials
+- `src/` — Reusable source code and utility functions
 - `README.md` — Project overview, methodology, and key findings
 
 - ## Key Takeaway
