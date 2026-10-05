@@ -63,7 +63,7 @@ These results describe the current held-out test sample and should be validated 
 
 ### Repository Structure
 
-- `notebooks/` — Complete analysis workflow from problem definition through predictive modeling
+- notebooks/ — Complete analysis workflow from problem definition through predictive modeling, explainability, and fairness evaluation
 - `data/` — Raw and processed data used for the analysis
 - `models/` — Saved final model artifacts and configuration
 - `results/` — Model evaluation and intervention results
