@@ -46,6 +46,19 @@ Tuned Logistic Regression was selected for both early-warning stages based on cr
 
 The **Enrollment model** provides earlier warning, identifying 72.2% of eventual dropouts before first-semester results are available.
 
+## Explainability and Fairness Findings
+
+Explainability analysis shows that the two prediction stages rely on different types of information.
+
+- At **Enrollment**, the model relies more on background and enrollment-stage characteristics such as scholarship status, course, application mode, gender, admission grade, and age.
+- After **Semester 1**, academic-progress variables become more influential, particularly approved units, Semester 1 grade, enrolled units, approval rate, and completion-related features.
+
+Fairness analysis on the held-out test set identified meaningful subgroup performance gaps across gender, age, and scholarship status.
+
+The Semester 1 model reduced the observed fairness gaps compared with the Enrollment model, but did not eliminate them. The largest remaining disparities were observed across age groups and scholarship status.
+
+These findings reinforce that the models should be used as decision-support tools rather than as automated decision systems. Any real-world deployment would require future-cohort validation, continued subgroup monitoring, and consideration of fairness-mitigation strategies.
+
 The **Semester 1 model** provides stronger targeting, increasing dropout recall to 77.5% while substantially improving precision and reducing false positives.
 
 ## Limited-Capacity Intervention
