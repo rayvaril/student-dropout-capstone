@@ -156,11 +156,25 @@ The strongest predictors include:
 
 This suggests that the Semester 1 model relies more strongly on observed academic progress rather than primarily on background characteristics.
 
-### 5.3 Individual Explanations
+### 5.3 Partial Dependence Analysis
+
+Partial dependence analysis is used to examine how the Semester 1 model’s predicted dropout risk changes across two of its strongest academic predictors.
+
+For **Curricular units 1st sem (approved)**, predicted dropout risk decreases sharply as the number of approved units increases. The relationship is strongest among students with very few approved units.
+
+For **Curricular units 1st sem (grade)**, predicted dropout risk also decreases as grades increase.
+
+These patterns reinforce the EDA and permutation-importance findings that stronger first-semester academic progress is associated with lower predicted dropout risk in the fitted model.
+
+Partial dependence describes the model's average predictive behavior and should not be interpreted causally, particularly because several Semester 1 academic variables are correlated.
+
+### 5.4 Individual Explanations
 
 Because the final models use Logistic Regression, individual predictions can be decomposed into feature contributions.
 
 These explanations show which model inputs push a prediction toward or away from the Dropout class. However, feature contributions should not be interpreted causally, especially when predictors are correlated.
+
+A high predicted probability also does not guarantee that a student will be labeled as Dropout. The analysis includes a high-confidence false-positive example to demonstrate why risk scores should support human review rather than trigger automatic decisions.
 
 ## 6. Fairness Evaluation
 
@@ -246,6 +260,21 @@ Across gender, age, and scholarship status, the Semester 1 model shows smaller o
 However, meaningful disparities remain, particularly across age groups and scholarship status.
 
 These results do not by themselves prove that either model is fair or unfair. They describe subgroup differences observed in the held-out test sample and should be interpreted alongside group sizes, underlying dropout prevalence, model purpose, and the consequences of false positives and false negatives.
+
+### 6.5 Fairness Mitigation Strategies
+
+The fairness audit identifies meaningful subgroup performance gaps, particularly across age groups and scholarship status. Because these findings come from a single held-out test sample, mitigation strategies should be validated on additional cohorts before changing the operational decision rule.
+
+Potential strategies include:
+
+- **Reweighting during training** to place greater emphasis on underperforming subgroups or subgroup-positive cases.
+- **Threshold review** to examine whether the current classification threshold produces unnecessarily high false-negative rates for particular groups.
+- **Feature sensitivity analysis** by retraining models without selected demographic or socioeconomic variables and comparing both predictive performance and subgroup gaps.
+- **Fairness-aware model selection** that considers subgroup Recall and false-negative-rate gaps alongside overall predictive metrics.
+- **Ongoing subgroup monitoring** across future cohorts using Recall, false-negative rate, selection rate, demographic parity, and equalized-odds measures.
+- **Human review and supportive outreach** rather than automated decisions, particularly for groups with higher observed error rates.
+
+No mitigation technique is applied automatically in this capstone because mitigation can change both overall predictive performance and subgroup outcomes. Any strategy should first be tested on validation data and evaluated for both utility and fairness before operational use.
 
 
 ## 7. Limited-Capacity Intervention Analysis
