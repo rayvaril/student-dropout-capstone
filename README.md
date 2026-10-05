@@ -1,6 +1,6 @@
 # Early Warning for Student Attrition
 
-## An Explainable and Fair Machine Learning Approach
+## An Explainable Machine Learning Approach with Fairness Evaluation
 
 ## Project Overview
 
