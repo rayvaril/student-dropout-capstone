@@ -133,6 +133,37 @@ Model performance was audited across **gender, age groups, and scholarship statu
 
 Semester 1 reduced the observed gaps across all three audited groupings, but meaningful disparities remained, particularly for **age** and **scholarship status**.
 
+### Tested Feature-Sensitivity Mitigation
+
+A sensitivity analysis retrained both Logistic Regression models after removing:
+
+- `Gender`
+- `Age at enrollment`
+- `Scholarship holder`
+
+| Metric | Enrollment Original | Enrollment Reduced | Semester 1 Original | Semester 1 Reduced |
+|---|---:|---:|---:|---:|
+| Recall | 72.2% | 66.9% | 77.5% | 77.1% |
+| Precision | 52.6% | 52.6% | 69.8% | 70.9% |
+| F1 | 60.8% | 58.9% | 73.5% | 73.9% |
+
+Selected Equalized-Odds gaps also changed:
+
+| Group | Enrollment Original | Enrollment Reduced | Semester 1 Original | Semester 1 Reduced |
+|---|---:|---:|---:|---:|
+| Gender | 0.340 | **0.174** | 0.108 | 0.119 |
+| Age | 0.544 | 0.554 | 0.277 | **0.242** |
+| Scholarship status | 0.650 | **0.160** | 0.402 | **0.321** |
+
+The Enrollment model loses meaningful recall when these attributes are removed. In contrast, the Semester 1 model retains almost the same recall while slightly improving Precision and F1, and reducing several observed fairness gaps.
+
+This suggests that Semester 1 academic-progress information provides a less attribute-dependent basis for prediction. However, feature removal does not guarantee fairness because correlated proxy variables may remain.
+
+Detailed results are available in:
+
+- `results/feature_sensitivity_performance.csv`
+- `results/feature_sensitivity_fairness_gaps.csv`
+
 **Proposed Mitigation Strategies**
 Before deployment, the project recommends:
 
