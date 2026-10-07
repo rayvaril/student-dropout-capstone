@@ -177,7 +177,7 @@ These results describe the current held-out test sample and should be validated 
 - `src/` — Reusable source code and utility functions
 - `README.md` — Project overview, methodology, and key findings
 
-- ## Limitations
+## Limitations
 
 This project should be interpreted as a decision-support prototype rather than a deployment-ready system.
 
