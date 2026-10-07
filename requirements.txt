@@ -1,6 +1,8 @@
-pandas
 numpy
+pandas
 matplotlib
 scikit-learn
 joblib
 ucimlrepo
+jupyter
+nbconvert
