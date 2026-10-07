@@ -276,6 +276,31 @@ Potential strategies include:
 
 No mitigation technique is applied automatically in this capstone because mitigation can change both overall predictive performance and subgroup outcomes. Any strategy should first be tested on validation data and evaluated for both utility and fairness before operational use.
 
+### Tested Feature-Sensitivity Mitigation
+
+Because `Gender`, `Age at enrollment`, and `Scholarship holder` were both model inputs and variables used in the fairness audit, an additional sensitivity analysis was performed.
+
+Both final Logistic Regression models were retrained after removing these three attributes.
+
+| Metric | Enrollment Original | Enrollment Reduced | Semester 1 Original | Semester 1 Reduced |
+|---|---:|---:|---:|---:|
+| Recall | 72.2% | 66.9% | 77.5% | 77.1% |
+| Precision | 52.6% | 52.6% | 69.8% | 70.9% |
+| F1 | 60.8% | 58.9% | 73.5% | 73.9% |
+
+Selected Equalized-Odds gaps changed as follows:
+
+| Group | Enrollment Original | Enrollment Reduced | Semester 1 Original | Semester 1 Reduced |
+|---|---:|---:|---:|---:|
+| Gender | 0.340 | 0.174 | 0.108 | 0.119 |
+| Age | 0.544 | 0.554 | 0.277 | 0.242 |
+| Scholarship status | 0.650 | 0.160 | 0.402 | 0.321 |
+
+The Enrollment model experienced a meaningful reduction in recall when these attributes were removed, suggesting greater dependence on enrollment-stage demographic or socioeconomic information.
+
+In contrast, the Semester 1 model retained almost the same recall while slightly improving precision and F1. Several fairness gaps also improved, particularly for age and scholarship status.
+
+These findings suggest that Semester 1 academic-progress information provides a less attribute-dependent basis for dropout prediction. However, removing sensitive attributes does not guarantee fairness because correlated proxy variables may remain. Fairness should therefore continue to be monitored across future cohorts.
 
 ## 7. Limited-Capacity Intervention Analysis
 
