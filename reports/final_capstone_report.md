@@ -285,8 +285,8 @@ Both final Logistic Regression models were retrained after removing these three 
 | Metric | Enrollment Original | Enrollment Reduced | Semester 1 Original | Semester 1 Reduced |
 |---|---:|---:|---:|---:|
 | Recall | 72.2% | 66.9% | 77.5% | 77.1% |
-| Precision | 52.6% | 52.6% | 69.8% | 70.9% |
-| F1 | 60.8% | 58.9% | 73.5% | 73.9% |
+| Precision | 52.6% | 51.4% | 69.8% | 70.9% |
+| F1 | 60.8% | 58.1% | 73.5% | 73.9% |
 
 Selected Equalized-Odds gaps changed as follows:
 
