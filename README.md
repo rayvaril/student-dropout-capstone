@@ -13,6 +13,40 @@ This capstone develops an explainable machine learning early-warning system to i
 
 The goal is not only to predict dropout risk, but to support earlier and more targeted student interventions while considering model interpretability and fairness.
 
+## Business Success Criteria
+
+The model is intended to support limited student-intervention capacity rather than automate student decisions.
+
+Key business-oriented measures include:
+
+- **Students correctly identified for support**
+- **Recall@Top10%** — proportion of actual Dropout cases captured when only the highest-risk 10% of students can be prioritized
+- **Precision@Top10%** — proportion of prioritized students who are actually labeled as Dropout
+- **False positives avoided** — reducing unnecessary outreach and use of limited support resources
+- **Retention uplift** — to be measured in a future intervention pilot
+- **Cost per successfully supported student** — to be measured once intervention costs are available
+
+The current dataset does not contain intervention costs or experimentally observed retention gains, so no monetary ROI claim is made in this capstone.
+
+## Data Source
+
+This project uses the UCI Machine Learning Repository dataset:
+
+**Predict Students' Dropout and Academic Success**
+
+- **4,424 student records**
+- **36 input features**
+- Original target classes: `Dropout`, `Enrolled`, `Graduate`
+- Includes enrollment information, demographic and socioeconomic variables, and first- and second-semester academic performance
+- No missing values are reported by UCI
+
+**Citation:**  
+Realinho, V., Vieira Martins, M., Machado, J., & Baptista, L. (2021). *Predict Students' Dropout and Academic Success* [Dataset]. UCI Machine Learning Repository. https://doi.org/10.24432/C5MC89
+
+For detailed feature assessment and variable definitions, see:
+
+`notebooks/01_dataset_assessment.ipynb`
+
 ## Objectives
 
 This project aims to:
@@ -34,6 +68,26 @@ The project follows a two-stage early-warning framework:
 Logistic Regression, Random Forest, and Gradient Boosting were compared. Feature-selection and PCA-based variants were also evaluated.
 
 Hyperparameter tuning and model selection were performed using **stratified 5-fold cross-validation on the training data only**. The held-out test set was reserved exclusively for final evaluation.
+
+## Model Comparison
+
+Models were compared using stratified 5-fold cross-validation on the training data only. Dropout Recall was the primary selection metric.
+
+| Prediction Window | Model | Recall | Precision | F1 | ROC-AUC | PR-AUC |
+|---|---|---:|---:|---:|---:|---:|
+| Enrollment | Tuned Logistic Regression | **0.706** | 0.524 | 0.601 | 0.769 | 0.614 |
+| Enrollment | Logistic + L1 Feature Selection | 0.700 | 0.513 | 0.592 | 0.764 | 0.604 |
+| Enrollment | Logistic + PCA | 0.696 | 0.509 | 0.587 | 0.756 | 0.590 |
+| Enrollment | Tuned Random Forest | 0.632 | 0.548 | 0.587 | 0.763 | 0.602 |
+| Enrollment | Tuned Gradient Boosting | 0.431 | 0.629 | 0.512 | 0.767 | 0.611 |
+| Semester 1 | Tuned Logistic Regression | **0.771** | 0.692 | 0.729 | 0.883 | 0.823 |
+| Semester 1 | Logistic + L1 Feature Selection | 0.765 | 0.689 | 0.724 | 0.878 | 0.814 |
+| Semester 1 | Logistic + PCA | 0.752 | 0.686 | 0.717 | 0.874 | 0.807 |
+| Semester 1 | Tuned Random Forest | 0.727 | 0.728 | 0.727 | 0.879 | 0.815 |
+| Semester 1 | Tuned Gradient Boosting | 0.669 | 0.799 | 0.728 | 0.881 | 0.823 |
+
+**Why Logistic Regression?**  
+Tuned Logistic Regression achieved the highest Dropout Recall for both prediction windows while maintaining competitive F1, ROC-AUC, and PR-AUC. It was also preferred because interpretability is important for an early-warning decision-support system.
 
 ## Final Model Performance
 
@@ -61,6 +115,44 @@ These findings reinforce that the models should be used as decision-support tool
 
 The **Semester 1 model** provides stronger targeting, increasing dropout recall to 77.5% while substantially improving precision and reducing false positives.
 
+### Methods Used
+
+**Explainability**
+- Permutation importance was used to identify which original features most influenced predictive performance.
+- Partial Dependence Plots (PDP) were used to examine how predicted dropout risk changes as key Semester 1 variables change.
+- Logistic Regression coefficients were also used for individual-level contribution analysis.
+- These explanations describe predictive relationships and should not be interpreted as causal effects.
+
+**Fairness Metrics**
+Model performance was audited across **gender, age groups, and scholarship status** using:
+
+- **Selection-rate gap** — a demographic-parity-style comparison
+- **Recall gap** — an equal-opportunity comparison
+- **False-positive-rate gap**
+- **Equalized-odds gap** — based on differences in true-positive and false-positive rates
+
+Semester 1 reduced the observed gaps across all three audited groupings, but meaningful disparities remained, particularly for **age** and **scholarship status**.
+
+**Proposed Mitigation Strategies**
+Before deployment, the project recommends:
+
+- reweighting or resampling during training
+- reviewing decision thresholds
+- testing model performance with sensitive/proxy features removed
+- including fairness metrics in model selection
+- monitoring subgroup performance over time
+- retaining human review for intervention decisions
+
+No fairness mitigation was automatically applied to the final model because any intervention should first be validated on future cohorts and reviewed for institutional and ethical implications.
+
+See:
+
+`notebooks/05_explainability_fairness.ipynb`
+
+and the fairness result files in:
+
+`results/`
+
 ## Limited-Capacity Intervention
 
 To simulate a real-world scenario where an institution can support only the highest-risk **10% of students**, the models were also evaluated using a Top-10% intervention strategy.
@@ -84,6 +176,41 @@ These results describe the current held-out test sample and should be validated 
 - `presentations/` — Final capstone presentation materials
 - `src/` — Reusable source code and utility functions
 - `README.md` — Project overview, methodology, and key findings
+
+- ## Limitations
+
+This project should be interpreted as a decision-support prototype rather than a deployment-ready system.
+
+Key limitations include:
+
+- **Single institutional context:** The dataset represents one higher-education setting, so performance may not generalize to other institutions, countries, or student populations.
+- **Target definition:** Students labeled `Enrolled` are grouped with `Graduate` as class `0`, even though their eventual outcome is not yet confirmed.
+- **Future-cohort performance is unknown:** Results are based on one held-out test split and should be validated on later student cohorts.
+- **Predictive, not causal:** Feature importance and Partial Dependence results show associations with predicted dropout risk, not proof that changing those variables would cause dropout risk to change.
+- **Fairness estimates may be unstable for smaller subgroups:** Some audited groups contain relatively few Dropout cases.
+- **Feature timing requires operational validation:** Variables such as `Debtor` and `Tuition fees up to date` were excluded from the Enrollment model because their exact availability at the prediction point could not be verified.
+- **No intervention outcomes are available:** The dataset does not measure whether outreach changes retention, so retention uplift and monetary ROI cannot yet be estimated.
+
+Before deployment, the models should be validated on future cohorts, re-audited for fairness, and tested within a real intervention workflow.
+
+## How to Reproduce
+
+1. Clone the repository.
+2. Install dependencies from `requirements.txt`.
+3. Run the notebooks in order:
+
+   - `00_problem_definition.ipynb`
+   - `01_dataset_assessment.ipynb`
+   - `02_exploratory_analysis.ipynb`
+   - `03_feature_engineering.ipynb`
+   - `04_predictive_modeling.ipynb`
+   - `05_explainability_fairness.ipynb`
+
+4. Final model artifacts are saved in `models/`.
+5. Evaluation and fairness outputs are saved in `results/`.
+6. Final presentations are available in `presentations/`.
+
+The workflow is designed so that preprocessing, model selection, evaluation, explainability, and fairness analysis can be reproduced from the notebooks and saved configuration files.
 
 - ## Key Takeaway
 
